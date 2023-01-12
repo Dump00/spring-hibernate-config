@@ -28,7 +28,7 @@ public class PersonController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Boolean> eletePersonById(@RequestBody Person person) {
+    public ResponseEntity<Boolean> deletePersonById(@RequestBody Person person) {
         return new ResponseEntity<Boolean>(personService.delete(person), HttpStatus.OK);
     }
 }
