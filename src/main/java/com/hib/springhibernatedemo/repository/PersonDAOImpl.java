@@ -1,6 +1,7 @@
 package com.hib.springhibernatedemo.repository;
 
 import com.hib.springhibernatedemo.model.Person;
+import com.hib.springhibernatedemo.model.Request;
 import jakarta.transaction.Transactional;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -21,23 +22,22 @@ public class PersonDAOImpl implements PersonDAO {
     }
 
     @Override
-    public String savePerson(Person person) {
-        Long isSuccess = (Long)getSession().save(person);
-        if(isSuccess >= 1){
-            return "Success";
-        }else{
-            return "Error while Saving Person";
-        }
+    public Person savePerson(Request request) {
+        Person person = new Person();
+        person.setName(request.getName());
+        person.setCity(request.getCity());
+        getSession().persist(person);
+        return person;
     }
 
     @Override
     public boolean delete(Person person) {
-        getSession().delete(person);
+        getSession().remove(person);
         return true;
     }
 
     @Override
-    public List getAllPersons() {
-        return getSession().createQuery("from Person").list();
+    public List<Person> getAllPersons() {
+        return getSession().createQuery("from Person", Person.class).list();
     }
 }
